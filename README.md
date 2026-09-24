@@ -1,3 +1,32 @@
+# Nu for Cyb
+
+The public Nushell source used by [Cyb](https://github.com/cyberia-to/cyb).
+[soft3](https://github.com/cyberia-to/soft3/blob/main/release/phase1.toml)
+pins a full revision of this repository in each stack build. Cyb embeds these
+Rust libraries and selects their revision through its soft3 build.
+
+| Source | Role |
+| --- | --- |
+| [Nushell 0.110.0](https://github.com/nushell/nushell/commit/d40e191d8efad32a174d85b2a45f7ba4796cff84) | Upstream base, with its Git history and MIT license preserved |
+| `nu-protocol`, `nu-engine`, `nu-parser` | Values, evaluation and parsing |
+| `nu-command`, `nu-cmd-lang`, `nu-cmd-extra` | Command libraries |
+| `nu-cli`, `nu-std`, `nu-utils` | Shell integration, standard library and utilities |
+
+Clone beside Cyb so its Cargo paths resolve:
+
+```sh
+git clone https://github.com/cyberia-to/nu.git
+git clone https://github.com/cyberia-to/cyb.git
+```
+
+Release assembly checks out the exact soft3 pin. Local development follows this
+repository's `main` unless a revision is selected explicitly. The standalone
+`nu` command used for CI scripts has its own tool version.
+
+The [embedded-library CI](https://github.com/cyberia-to/nu/actions/workflows/ci.yml)
+checks formatting, lints and library tests on Linux and macOS. Build the standalone
+shell with `cargo build --release --locked`. Upstream documentation follows.
+
 # Nushell <!-- omit in toc -->
 [![Crates.io](https://img.shields.io/crates/v/nu.svg)](https://crates.io/crates/nu)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/nushell/nushell/ci.yml?branch=main)](https://github.com/nushell/nushell/actions)
