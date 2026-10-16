@@ -68,6 +68,7 @@ members = [
   "crates/nu-utils",
   "crates/nuon",
   "crates/nu-mcp",
+  "crates/sugarloaf",
 ]
 
 [workspace.dependencies]
