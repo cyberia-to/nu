@@ -319,6 +319,7 @@ fn make_attributes(preserve: Option<Value>) -> Result<uu_cp::Attributes, ShellEr
                 target_os = "freebsd",
                 target_os = "android",
                 target_os = "macos",
+                target_os = "ios",
                 target_os = "netbsd",
                 target_os = "openbsd"
             ))]
@@ -341,6 +342,7 @@ fn make_attributes(preserve: Option<Value>) -> Result<uu_cp::Attributes, ShellEr
                 target_os = "freebsd",
                 target_os = "android",
                 target_os = "macos",
+                target_os = "ios",
                 target_os = "netbsd",
                 target_os = "openbsd"
             ))]
@@ -384,6 +386,7 @@ fn parse_and_set_attribute(
                     target_os = "freebsd",
                     target_os = "android",
                     target_os = "macos",
+                    target_os = "ios",
                     target_os = "netbsd",
                     target_os = "openbsd"
                 ))]

@@ -94,17 +94,17 @@ pub mod users {
         use nix::libc::{c_int, gid_t};
         use std::ffi::CString;
 
-        // MacOS uses i32 instead of gid_t in getgrouplist for unknown reasons
-        #[cfg(target_os = "macos")]
+        // Darwin (macOS and iOS) uses i32 instead of gid_t in getgrouplist
+        #[cfg(any(target_os = "macos", target_os = "ios"))]
         let mut buff: Vec<i32> = vec![0; 1024];
-        #[cfg(not(target_os = "macos"))]
+        #[cfg(not(any(target_os = "macos", target_os = "ios")))]
         let mut buff: Vec<gid_t> = vec![0; 1024];
 
         let name = CString::new(username).ok()?;
 
         let mut count = buff.len() as c_int;
 
-        // MacOS uses i32 instead of gid_t in getgrouplist for unknown reasons
+        // Darwin uses i32 instead of gid_t in getgrouplist
         // SAFETY:
         // int getgrouplist(const char *user, gid_t group, gid_t *groups, int *ngroups);
         //
@@ -112,7 +112,7 @@ pub mod users {
         // every valid value will be accepted for `group`
         // The capacity for `*groups` is passed in as `*ngroups` which is the buffer max length/capacity (as we initialize with 0)
         // Following reads from `*groups`/`buff` will only happen after `buff.truncate(*ngroups)`
-        #[cfg(target_os = "macos")]
+        #[cfg(any(target_os = "macos", target_os = "ios"))]
         let res = unsafe {
             nix::libc::getgrouplist(
                 name.as_ptr(),
@@ -122,7 +122,7 @@ pub mod users {
             )
         };
 
-        #[cfg(not(target_os = "macos"))]
+        #[cfg(not(any(target_os = "macos", target_os = "ios")))]
         let res = unsafe {
             nix::libc::getgrouplist(name.as_ptr(), gid.as_raw(), buff.as_mut_ptr(), &mut count)
         };
